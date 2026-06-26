@@ -4,7 +4,7 @@ import textwrap
 
 import pipcl
 
-VERSION = "1.27.2.3"
+VERSION = "1.28.0"
 VERSION_TUPLE = tuple(int(x) for x in VERSION.split("."))
 
 # We build with, and run with, a particular PyMuPDF version usually, but not
@@ -39,6 +39,9 @@ def build():
             {VERSION_TUPLE=}
             """)
     ret.append((version_info.encode("utf-8"), "pymupdf4llm/versions_file.py"))
+    
+    _build_py = pipcl.git_info_py('.', check=0, prefix='pymupdf4llm_git_')
+    ret.append((_build_py.encode(), 'pymupdf4llm/_build.py'))
 
     for p in pipcl.git_items("src"):
         ret.append((f"src/{p}", f"pymupdf4llm/{p}"))
